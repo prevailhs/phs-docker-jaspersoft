@@ -19,6 +19,14 @@ COPY postgresql_master.properties /usr/src/jasperreports-server/buildomatic/defa
 # (see README)
 RUN cd /usr/src/jasperreports-server/buildomatic && ./js-ant deploy-webapp-ce
 
+# Cleanup tomcat stuff to only have jasperreports server at root
+RUN rm -rf /usr/local/tomcat/webapps/ROOT && \
+  rm -rf /usr/local/tomcat/webapps/docs && \
+  rm -rf /usr/local/tomcat/webapps/examples && \
+  rm -rf /usr/local/tomcat/webapps/host-manager && \
+  rm -rf /usr/local/tomcat/webapps/manager && \
+  mv /usr/local/tomcat/webapps/jasperserver /usr/local/tomcat/webapps/ROOT
+
 # Use an entrypoint to do env var to DB setting translation
 COPY entrypoint.sh /
 COPY db-initialize.sh /usr/local/bin/db-initialize.sh

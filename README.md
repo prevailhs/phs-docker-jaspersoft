@@ -17,12 +17,12 @@ There are a few environment variables that should be set whenever
 running this image; by setting them both the webapp configuration and
 the src files configuration will be updated correctly for the database:
 
-* `DATABASE_HOST` - the host of the database to connect to; it will
+* `DB_HOST` - the host of the database to connect to; it will
   default to `DATABASE_PORT_5432_TCP_ADDR` if set.
-* `DATABASE_PORT` - the port of the database to connect to; it will
+* `DB_PORT` - the port of the database to connect to; it will
   default to `DATABASE_PORT_5432_TCP_PORT` if set.
-* `DATABASE_USERNAME` - the username to connect to the database.
-* `DATABASE_PASSWORD` - the password to connect to the database.
+* `DB_USERNAME` - the username to connect to the database.
+* `DB_PASSWORD` - the password to connect to the database.
 
 
 ## Running locally
