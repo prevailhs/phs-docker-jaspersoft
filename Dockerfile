@@ -14,6 +14,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
 
 # TODO: Allow using different db backends for open source
 COPY postgresql_master.properties /usr/src/jasperreports-server/buildomatic/default_master.properties
+COPY postgresql-9.4-1201.jdbc4.jar /usr/src/jasperreports-server/buildomatic/conf_source/db/postgresql/jdbc/
 
 # Only build the webapp part, the DB should be done separately before running container using db-initialization.sh
 # (see README)
