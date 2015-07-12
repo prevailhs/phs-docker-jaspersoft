@@ -28,21 +28,29 @@ the src files configuration will be updated correctly for the database:
 ## Running locally
 
 You can run this locally by staring up a database container and then
-linking into this image:
+linking into this image; __NOTE: We use the Aptible
+[postgresql](https://github.com/aptible/docker-postgresql) image as it
+supports SSL which is required in the JasperSoft config now.__
 
 ```
-# Run once to start db server
-docker run --name postgres1 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+# Create a data volume for the data
+docker create --name data quay.io/aptible/postgresql
 
-# Run once to prepare the db with required JasperReports Server data
-docker run --rm --link postgres1:postgres -e DB_USERNAME=postgres -e DB_PASSWORD=mysecretpassword jaspersoft db-initialize.sh
+# Initialize the DB's username, password and database
+docker run --volumes-from data -e USERNAME=user1 -e PASSPHRASE=password1 -e DB=db quay.io/aptible/postgresql --initialize
+
+# Run the postgres server (we use the aptible image because it has SSL support)
+docker run --name postgres1 --volumes-from data -d quay.io/aptible/postgresql
+
+# Run once to prepare the db with required JasperReports Server data (skip creating the DB since we did that above)
+docker run --rm --link postgres1:database -e DB_USERNAME=user1 -e DB_PASSWORD=password1 jaspersoft db-initialize.sh --skip-create
 
 # Run to start the server on 8080
-docker run -d -p 8080:8080 --link postgres1:postgres -e DB_USERNAME=postgres -e DB_PASSWORD=mysecretpassword jaspersoft
+docker run -d -p 8080:8080 --link postgres1:database -e DB_USERNAME=user1 -e DB_PASSWORD=password1 jaspersoft
 ```
 
 You should then be able to access (after a brief startup time) the
-webserver at: `http://localhost:8080/jasperserver`. See the
+webserver at: `http://localhost:8080/`. See the
 [JasperReports Server](http://community.jaspersoft.com/project/jasperreports-server)
 for the default admin username and password. **NOTE: if you are using
 boot2docker replace `localhost` with the IP provided by `boot2docker
@@ -68,7 +76,10 @@ on the TODO list.
 
 ## TODO
 
+* Add a DB_NAME env var (default: jasperserver) that controls the name
+  of the database for JasperSoft.
+* Add a DB_SSL env var (default: true) that controls SSL connection to
+  DB or not.
+* Use official postgres image but figure out how to turn on SSL support.
 * Add support for other DBs to be swapped in; probably leave PostgreSQL
   as the default but comment where people would alter after forking.
-* Overwrite Tomcat default configuration so that the only thing
-  available is JasperReports Server and its at the root path.
