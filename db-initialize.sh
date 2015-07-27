@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-echo "\$1: $1"
+# HACK: The db.template.properties has &amp; for tomcat, but needs to change to & for this
+sed -i 's/\&amp;/\&/g' /usr/src/jasperreports-server/buildomatic/conf_source/db/postgresql/db.template.properties
 
 pushd /usr/src/jasperreports-server/buildomatic
 if [[ ! "$1" == "--skip-create" ]]; then
