@@ -27,7 +27,9 @@ RUN rm -rf /usr/local/tomcat/webapps/ROOT && \
   rm -rf /usr/local/tomcat/webapps/examples && \
   rm -rf /usr/local/tomcat/webapps/host-manager && \
   rm -rf /usr/local/tomcat/webapps/manager && \
-  mv /usr/local/tomcat/webapps/jasperserver /usr/local/tomcat/webapps/ROOT
+  mv /usr/local/tomcat/webapps/jasperserver /usr/local/tomcat/webapps/ROOT && \
+  sed -i "s/jasperserver\.root/ROOT.root/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/web.xml && \
+  sed -i "s/jasperserver\.root/ROOT.root/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/log4j.properties
 
 # Use an entrypoint to do env var to DB setting translation
 COPY entrypoint.sh /
