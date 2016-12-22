@@ -2,7 +2,7 @@
 
 This provides a docker image for running
 [JasperReports Server](http://community.jaspersoft.com/project/jasperreports-server).
-This particular image is a litle unique in that in a couple ways:
+This particular image is a little unique in a couple of ways:
 
 * It does all the compilation/building during `docker build .`; alot of
   the other repositories out there unzip the source code, but then run
@@ -29,7 +29,7 @@ the src files configuration will be updated correctly for the database:
 
 ## Running locally
 
-You can run this locally by staring up a database container and then
+You can run this locally by starting up a database container and then
 linking into this image; __NOTE: We use the Aptible
 [postgresql](https://github.com/aptible/docker-postgresql) image as it
 supports SSL which is required in the JasperSoft config now.__
